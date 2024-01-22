@@ -50,20 +50,20 @@
 			}
 		],
 		"no-void": "off",
-
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": {
+					"attributes": false
+				}
+			}
+		],
+		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/padding-line-between-statements": "off",
 		"@typescript-eslint/prefer-enum-initializers": "off",
 		"@typescript-eslint/prefer-readonly-parameter-types": "off",
 		"@typescript-eslint/prefer-regexp-exec": "off",
-		"@typescript-eslint/no-magic-numbers": [
-			"error",
-			{
-				"ignoreEnums": true,
-				"ignore": [0],
-				"enforceConst": true,
-				"detectObjects": true
-			}
-		],
+		"@typescript-eslint/no-magic-numbers": "off",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/init-declarations": "off",
 		"@typescript-eslint/no-confusing-void-expression": [
@@ -78,7 +78,19 @@
 		"@typescript-eslint/no-restricted-imports": "off",
 
 		"import/no-deprecated": "error",
-		"import/order": "off",
+		"import/order": [
+			"error",
+			{
+				"groups": [
+					["builtin", "external"],
+					"internal",
+					["sibling", "parent", "index"]
+				],
+				"newlines-between": "always"
+			}
+		],
+		"import/extensions": "error",
+		"import/no-unresolved": "error",
 		"import/no-extraneous-dependencies": [
 			"error",
 			{
@@ -92,6 +104,29 @@
 			}
 		],
 
+		"react/jsx-sort-props": [
+			"error",
+			{
+				"callbacksLast": false,
+				"shorthandFirst": false,
+				"shorthandLast": true,
+				"ignoreCase": true,
+				"noSortAlphabetically": false
+			}
+		],
+		"react/jsx-props-no-spreading": [
+			"error",
+			{
+				"exceptions": ["input", "select", "FormProvider"]
+			}
+		],
+		"react/jsx-no-leaked-render": ["off"],
+		"react/no-multi-comp": [
+			"error",
+			{
+				"ignoreStateless": false
+			}
+		],
 		"react/no-did-update-set-state": "off",
 		"react/no-find-dom-node": "off",
 		"react/no-is-mounted": "off",
@@ -121,15 +156,6 @@
 			}
 		],
 		"react/no-unstable-nested-components": "error",
-		"react/jsx-handler-names": [
-			"error",
-			{
-				"eventHandlerPrefix": "on",
-				"eventHandlerPropPrefix": "on",
-				"checkLocalVariables": true,
-				"checkInlineFunction": true
-			}
-		],
 		"react/jsx-key": "error",
 		"react/jsx-no-bind": [
 			"error",
@@ -154,11 +180,25 @@
 				}
 			}
 		],
-		"unicorn/no-nested-ternary": ["error"]
+		"unicorn/no-nested-ternary": ["error"],
+		"unicorn/prevent-abbreviations": [
+			"error",
+			{
+				"replacements": {
+					"args": false,
+					"props": false
+				}
+			}
+		]
 	},
 	"settings": {
 		"react": {
 			"version": "detect"
+		},
+		"import/resolver": {
+			"node": {
+				"moduleDirectory": ["node_modules", "src"]
+			}
 		}
 	},
 	"overrides": [
