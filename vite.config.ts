@@ -2,6 +2,7 @@
 import eslintPlugin from '@nabla/vite-plugin-eslint'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import viteSvgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(({ mode }) => ({
@@ -27,10 +28,7 @@ export default defineConfig(({ mode }) => ({
 	plugins: [
 		tsconfigPaths(),
 		react(),
-		...(mode === 'test'
-			? []
-			: [
-					eslintPlugin(),
-			  ])
+		viteSvgr(),
+		...(mode === 'test' ? [] : [eslintPlugin()])
 	]
 }))
