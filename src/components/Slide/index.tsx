@@ -1,26 +1,28 @@
 import type { ReactNode, SyntheticEvent } from 'react'
 import { useState } from 'react'
-/// <reference types="vite-plugin-svgr/client" />
 
-import LeftArrowIcon from '../../assets/icon-arrow-left.svg?react'
-import RightArrowIcon from '../../assets/icon-arrow-right.svg?react'
-import { useMedia } from '../../hooks/useMedia'
+import LeftArrowIcon from 'assets/icon-arrow-left.svg'
+import RightArrowIcon from 'assets/icon-arrow-right.svg'
+import useMedia from 'hooks/useMedia'
+
 import * as C from './styles'
 
-interface SlideProps {
+interface Props {
 	children: ReactNode
 }
 
-export function Slide({ children }: SlideProps) {
+function Slide({ children }: Props) {
 	const [slidePosition, setSlidePosition] = useState(0)
 	const mobile = useMedia('(max-width: 31.25rem)')
 
-	const slideNavigation = ({ currentTarget }: SyntheticEvent) => {
-		const direction = (currentTarget as HTMLButtonElement).value
+	const slideNavigation = ({
+		currentTarget
+	}: SyntheticEvent<HTMLButtonElement>) => {
+		const direction = currentTarget.value
 
-		direction === 'next'
-			? setSlidePosition(slidePosition <= -87.5 ? -87.5 : slidePosition - 12.5)
-			: setSlidePosition(slidePosition === 0 ? 0 : slidePosition + 12.5)
+		if (direction === 'next') {
+			setSlidePosition(slidePosition <= -87.5 ? -87.5 : slidePosition - 12.5)
+		} else setSlidePosition(slidePosition === 0 ? 0 : slidePosition + 12.5)
 	}
 
 	return (
@@ -35,7 +37,7 @@ export function Slide({ children }: SlideProps) {
 				</C.SlideButton>
 			)}
 			<C.Slide>
-				<C.SlideContent slidePosition={slidePosition}>
+				<C.SlideContent $slidePosition={slidePosition}>
 					{children}
 				</C.SlideContent>
 			</C.Slide>
@@ -51,3 +53,5 @@ export function Slide({ children }: SlideProps) {
 		</C.SlideContainer>
 	)
 }
+
+export default Slide

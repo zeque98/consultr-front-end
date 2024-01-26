@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from 'react'
 
-export const useMedia = (media: string) => {
-  const [match, setMatch] = useState(null);
+function useMediaQuery(query: string): boolean {
+	const [matches, setMatches] = useState(() => matchMedia(query).matches)
 
-  useEffect(() => {
-    const changeMatch = () => {
-      const { matches } = window.matchMedia(media);
-      setMatch(matches);
-    };
-    changeMatch();
+	useLayoutEffect(() => {
+		const mediaQuery = matchMedia(query)
 
-    window.addEventListener("resize", changeMatch);
+		function onMediaQueryChange(): void {
+			setMatches(mediaQuery.matches)
+		}
 
-    return () => {
-      window.removeEventListener("resize", changeMatch);
-    };
-  }, [media]);
+		mediaQuery.addEventListener('change', onMediaQueryChange)
 
-  return match;
-};
+		return (): void => {
+			mediaQuery.removeEventListener('change', onMediaQueryChange)
+		}
+	}, [query])
+
+	return matches
+}
+
+export default useMediaQuery

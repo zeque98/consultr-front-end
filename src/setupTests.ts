@@ -1,13 +1,10 @@
 import '@testing-library/jest-dom'
 import mediaQuery from 'css-mediaquery'
 
-import server from 'mocks/server'
 import { DESKTOP_RESOLUTION_HEIGHT, DESKTOP_RESOLUTION_WIDTH } from 'testUtils'
 import 'whatwg-fetch'
 
 beforeAll(() => {
-	server.listen({ onUnhandledRequest: 'error' })
-
 	Object.defineProperty(window, 'IS_REACT_ACT_ENVIRONMENT', {
 		writable: true,
 		value: true
@@ -64,12 +61,4 @@ beforeAll(() => {
 
 beforeEach(() => {
 	window.resizeTo(DESKTOP_RESOLUTION_WIDTH, DESKTOP_RESOLUTION_HEIGHT)
-})
-
-afterEach(() => {
-	server.resetHandlers()
-})
-
-afterAll(() => {
-	server.close()
 })

@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => ({
 	plugins: [
 		tsconfigPaths(),
 		react(),
-		viteSvgr(),
+		viteSvgr({ include: '**/*.svg' }),
 		...(mode === 'test' ? [] : [eslintPlugin()])
 	]
 }))

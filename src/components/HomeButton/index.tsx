@@ -1,45 +1,20 @@
-import HomeIcon from 'assets/icon-home.svg?react'
+import { memo } from 'react'
 
-import { fetchPokemonList } from 'api/fetchPokemonList'
-import type { Pokemon } from 'types/Pokemon'
+import HomeIcon from 'assets/icon-home.svg'
 
 import * as C from './styles'
 
-interface HomeButtonProps {
-	setPokemonList: (data: Pokemon[]) => void
-	setLoading: (value: boolean) => void
-	setPage: (value: number) => void
-	setShowPagination: (value: boolean) => void
-	disabledButton: boolean
-	setDisabledButton: (value: boolean) => void
+interface Props {
+	handleReset: () => Promise<void>
 }
 
-export function HomeButton({
-	setPokemonList,
-	setLoading,
-	setPage,
-	setShowPagination,
-	disabledButton,
-	setDisabledButton
-}: HomeButtonProps) {
-	const handleClick = async () => {
-		setLoading(true)
-		setDisabledButton(true)
-		setPokemonList(await fetchPokemonList(1))
-		setLoading(false)
-		setDisabledButton(false)
-		setPage(1)
-		setShowPagination(true)
-	}
-
+function HomeButton({ handleReset }: Props) {
 	return (
-		<C.HomeButton
-			className='button'
-			disabled={!!disabledButton}
-			onClick={handleClick}
-		>
+		<C.HomeButton className='button' onClick={handleReset}>
 			<HomeIcon />
 			Início
 		</C.HomeButton>
 	)
 }
+
+export default memo(HomeButton)

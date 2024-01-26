@@ -1,35 +1,32 @@
-import type { SyntheticEvent } from 'react'
+import { memo, type MouseEventHandler } from 'react'
 
-import { pokemonTypes } from '../../pokemonTypes'
+import { pokemonTypes } from 'utils/pokemonTypes'
+
 import * as C from './styles'
 
-interface PokemonTypeProps {
+interface Props {
 	type: string
-	tabIndex: boolean
-	handleClick?: (e: SyntheticEvent) => void
+	handleClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-export function PokemonType(props: PokemonTypeProps) {
-	const { name, color } = pokemonTypes.find(item => item.name === props.type)
+function PokemonType({ type, handleClick }: Props) {
+	const pokemonType = pokemonTypes.find(item => item.name === type)
 
 	const imgUrl = new URL(
-		`/src/assets/pokemonTypes/${name}.svg`,
+		`/src/assets/pokemonTypes/${pokemonType?.name}.svg`,
 		import.meta.url
 	).href
 
-	return name && color ? (
+	return (
 		<C.Type
-			color={color}
-			onClick={props.handleClick}
-			tabIndex={props.tabIndex ? 0 : -1}
-			value={name}
+			color={pokemonType?.color}
+			onClick={handleClick}
+			value={pokemonType?.name}
 		>
-			<img alt={name} height={16} src={imgUrl} width={16} />
-			{name}
+			<img alt={pokemonType?.name} height={16} src={imgUrl} width={16} />
+			{pokemonType?.name}
 		</C.Type>
-	) : (
-		<C.ErrorMessage>
-			Ops, não foi possível encontrar o tipo desse pokémon.
-		</C.ErrorMessage>
 	)
 }
+
+export default memo(PokemonType)

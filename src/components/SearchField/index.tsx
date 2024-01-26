@@ -1,39 +1,34 @@
-import type { SyntheticEvent } from 'react'
-import { useState } from 'react'
+import {
+	memo,
+	type Dispatch,
+	type SetStateAction,
+	type SyntheticEvent
+} from 'react'
 
-import { fetchPokemon } from '../../api/fetchPokemon'
-import SearchIcon from '../../assets/icon-search.svg?react'
-import type { Pokemon } from '../../types/Pokemon'
+import SearchIcon from 'assets/icon-search.svg'
+
 import * as C from './styles'
 
-interface SearchFieldProps {
-	setPokemonList: (data: Pokemon[]) => void
-	setError: (value: boolean) => void
-	setLoading: (value: boolean) => void
+interface Props {
+	inputValue: string
+	setInputValue: Dispatch<SetStateAction<string>>
 }
 
-export function SearchField(props: SearchFieldProps) {
-	const [inputValue, setInputValue] = useState('')
+const onSubmit = (event: SyntheticEvent) => {
+	event.preventDefault()
+}
 
-	const handleSubmit = async (e: SyntheticEvent) => {
-		e.preventDefault()
-
-		props.setLoading(true)
-		const requestPokemon = await fetchPokemon(inputValue.toLowerCase())
-
-		requestPokemon.response.ok
-			? props.setPokemonList([requestPokemon.data])
-			: props.setError(requestPokemon.error)
-
-		props.setLoading(false)
-		setInputValue('')
+function SearchField({ inputValue, setInputValue }: Props) {
+	const handleInputChange = (event: SyntheticEvent) => {
+		const target = event.target as HTMLInputElement
+		setInputValue(target.value)
 	}
 
 	return (
-		<C.Container onSubmit={handleSubmit}>
+		<C.Container onSubmit={onSubmit}>
 			<C.InputText
-				onChange={e => setInputValue(e.target.value)}
-				placeholder='Pesquisar Pokémon'
+				onChange={handleInputChange}
+				placeholder='Search pokemon'
 				value={inputValue}
 				required
 			/>
@@ -43,3 +38,5 @@ export function SearchField(props: SearchFieldProps) {
 		</C.Container>
 	)
 }
+
+export default memo(SearchField)

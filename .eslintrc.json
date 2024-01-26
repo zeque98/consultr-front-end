@@ -6,7 +6,7 @@
 		"es2021": true
 	},
 	"parser": "@typescript-eslint/parser",
-	"plugins": ["react-prefer-function-component"],
+	"plugins": ["react-prefer-function-component", "@typescript-eslint"],
 	"extends": [
 		"eslint:all",
 		"plugin:@typescript-eslint/all",
@@ -20,6 +20,7 @@
 		"plugin:react/jsx-runtime",
 		"plugin:unicorn/all",
 		"plugin:react-prefer-function-component/recommended",
+		"plugin:@typescript-eslint/recommended",
 		"prettier"
 	],
 	"rules": {
@@ -139,6 +140,7 @@
 		"react/prefer-es6-class": "off",
 		"react/no-unused-state": "off",
 		"react/prefer-stateless-function": "off",
+		"react/require-default-props": "off",
 		"react/require-render-return": "off",
 		"react/sort-comp": "off",
 		"react/state-in-constructor": "off",

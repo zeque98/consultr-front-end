@@ -1,64 +1,36 @@
-import usePagination from '@mui/material/usePagination'
+import Stack from '@mui/material/Stack'
+import type React from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
-import { fetchPokemonList } from '../../api/fetchPokemonList'
-import LeftArrowIcon from '../../assets/icon-arrow-left.svg?react'
-import RightArrowIcon from '../../assets/icon-arrow-right.svg?react'
-import type { Pokemon } from '../../types/Pokemon'
-import * as C from './styles'
+import { PaginationComponent } from './styles'
 
-interface UsePaginationProps {
-	setPokemonList: (data: Pokemon[]) => void
-	setLoading: (value: boolean) => void
-	searchBarRef: React.MutableRefObject<HTMLDivElement>
+interface Props {
+	count: number
 	page: number
-	setPage: (value: number) => void
+	setPage: Dispatch<SetStateAction<number>>
 }
 
-export default function UsePagination(props: UsePaginationProps) {
-	const handleChange = async (e: React.ChangeEvent<unknown>, value: number) => {
-		props.setPage(value)
-
-		props.setLoading(true)
-		props.setPokemonList(await fetchPokemonList(value))
-		props.setLoading(false)
+function Pagination({ count, page, setPage }: Props) {
+	const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
+		setPage(value)
 
 		window.scrollTo({
-			top: props.searchBarRef.current.offsetTop - 56
+			top: 0
 		})
 	}
 
-	const { items } = usePagination({
-		count: 10,
-		siblingCount: 0,
-		page: props.page,
-		onChange: handleChange
-	})
-
 	return (
-		<nav>
-			<C.Pagination>
-				{items.map(({ page, type, selected, ...item }, index) => {
-					let children = null
-
-					if (type === 'start-ellipsis' || type === 'end-ellipsis') {
-						children = <C.Ellipsis>...</C.Ellipsis>
-					} else if (type === 'page') {
-						children = (
-							<C.Button {...item} selected={selected}>
-								{page}
-							</C.Button>
-						)
-					} else {
-						children = (
-							<C.Button {...item} navigation>
-								{type === 'previous' ? <LeftArrowIcon /> : <RightArrowIcon />}
-							</C.Button>
-						)
-					}
-
-					return <li key={index}>{children}</li>
-				})}
-			</C.Pagination>
-		</nav>
+		<Stack alignItems='center' justifyContent='center' spacing={2}>
+			<PaginationComponent
+				count={count}
+				onChange={handleChange}
+				page={page}
+				size='large'
+				showFirstButton
+				showLastButton
+			/>
+		</Stack>
 	)
 }
+
+export default Pagination

@@ -1,17 +1,29 @@
+import axios from 'axios'
+
 import { fetchPokemon } from './fetchPokemon'
+
+export interface PokemonResponse {
+	count: number
+	next: string
+	previous: string
+	results: {
+		name: string
+		url: string
+	}[]
+}
 
 export const fetchPokemonList = async (page: number) => {
 	const offset = 9 * (page - 1)
-	const URL = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=9`
-
-	const response = await fetch(URL)
-	const data = await response.json()
-
-	const promises = data.results.map(
-		async (pokemon: { name: string }) => (await fetchPokemon(pokemon.name)).data
+	const response = await axios.get<PokemonResponse>(
+		`/pokemon?limit=9&offset=${offset}`
 	)
 
-	const pokemonList = Promise.all(promises)
+	const promises = response.data.results.map(async pokemon =>
+		fetchPokemon(pokemon.name)
+	)
 
-	return pokemonList
+	return {
+		totalPages: Math.floor(response.data.count / 9),
+		pokemonList: await axios.all(promises)
+	}
 }

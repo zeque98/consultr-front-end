@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -16,17 +16,17 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Montserrat', sans-serif;
 
     &::-webkit-scrollbar {
-      width: 1rem;               
+      width: 1rem;
     }
 
     &::-webkit-scrollbar-track {
-      background: #060B28;        
+      background: #060B28;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #2F5AFF;    
-      border-radius: .5rem;       
-      border: 0.25rem solid #060B28;  
+      background-color: #2F5AFF;
+      border-radius: .5rem;
+      border: 0.25rem solid #060B28;
     }
   }
 
@@ -53,8 +53,9 @@ export const GlobalStyles = createGlobalStyle`
     max-width: 78rem;
     padding: 0 1rem;
     margin: 0 auto;
+    margin-bottom: 6rem
   }
-  
+
   .button {
     background: linear-gradient(180deg, #151a37 0%, rgba(21, 26, 55, 0) 100%);
     border: 1px solid #24293f;
@@ -65,10 +66,10 @@ export const GlobalStyles = createGlobalStyle`
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    
+
     font-size: 1rem;
     line-height: 150%;
     font-weight: 700;
     color: #ffffff;
   }
-`;
+`

@@ -1,20 +1,17 @@
-import { fetchPokemon } from "./fetchPokemon";
+import axios from 'axios'
 
-type Props = {
-  pokemon: { name: string };
-};
+export interface PokemonByType {
+	pokemon: {
+		name: string
+		url: string
+	}
+	slot: number
+}
 
-export const fetchPokemonByType = async (type: string, pokemonAmount = 9) => {
-  const URL = `https://pokeapi.co/api/v2/type/${type}`;
+export interface FetchPokemonByTypeResponse {
+	name: string
+	pokemon: PokemonByType[]
+}
 
-  const response = await fetch(URL);
-  const data = await response.json();
-
-  const promises = data.pokemon
-    .filter((item: Props, index: number) => index + 1 <= pokemonAmount && item)
-    .map(async (item: Props) => (await fetchPokemon(item.pokemon.name)).data);
-
-  const pokemonList = Promise.all(promises);
-
-  return pokemonList;
-};
+export const fetchPokemonByType = async (type: string) =>
+	axios.get<FetchPokemonByTypeResponse>(`/type/${type}`)
